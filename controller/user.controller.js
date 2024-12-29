@@ -3,8 +3,9 @@ import mailSender from '../utils/mailSender.utils.js';
 // import { contactTemplate } from '../mail/template/Contact.template.js';
 import { adminTemplate } from '../mail/template/Admin.template.js';
 import contactModel from '../models/user.model.js';
-
 import postModel from '../models/post.model.js';
+import { redisDb } from "../config/redisdb.js";
+const redisClient=await redisDb();
 
 export const createContact = async (req, res) => {
   try {
@@ -46,6 +47,7 @@ export const createContact = async (req, res) => {
 export const showAllContacts=async(req,res)=>{
   try {
       const allContacts=await contactModel.find({});
+      await redisClient.setEx("allUsers",43200,JSON.stringify(allContacts));
       return res.status(200).json({
           sucess:true,
           message:"Contacts: - ",
@@ -59,3 +61,45 @@ export const showAllContacts=async(req,res)=>{
       });
   }
 }
+export const userDetails = async (req, res) => {
+   try {
+     const { id } = req.params;
+      if (!id) 
+        {
+         return res.status(300).json({ success: false, message: "Slug not found", }); 
+        } // Check if post is cached
+    redisClient.get(`user:${id}`, async (err, user) => {
+     if (user) 
+    { 
+      return res.status(200).json({ 
+        success: true,
+        message: "Post Found (from cache)",
+         data: JSON.parse(user),
+         }
+        );
+     }
+       
+ })
+ const selectedUser = await contactModel.findById(id); 
+ if (!selectedUser) { 
+  return res.status(401).json({
+     success: false,
+      message: "Data not found",
+     });
+ }
+
+redisClient.setEx(`user:${id}`, 43200, JSON.stringify(selectedUser)); 
+return res.status(200).json({ success: true, 
+message: "Post Found",
+data: selectedUser,
+});
+
+ 
+} catch (error) {
+   console.log(error); 
+   return res.status(400).json({ success: false,
+     message: "Internal error occurred",
+     error });
+}
+}
+
