@@ -20,11 +20,11 @@ const contactSchema = new mongoose.Schema({
         required: true,
        
     },
-    category: {
+    posts: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category' // Correctly reference the Category model
+        ref: 'Post' // Correctly reference the Category model
       },
-    categoryName: {
+    postName: {
         type: String, // Changed to String
       },
     

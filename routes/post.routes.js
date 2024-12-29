@@ -8,7 +8,7 @@ router.post('/create',createPost);
 router.post('/schedule',schedulePost)
 router.get('/schedule/showall',showAllSchedulePost);
 router.get('/showall',showAllPost);
-router.get('/showsingle/:slug',postPageDetails);
+router.get('/showsingle/:id',postPageDetails);
 router.get('/', searchPosts);
 router.put('/update/:_id',updatePost);
 

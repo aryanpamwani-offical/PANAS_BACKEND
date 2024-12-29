@@ -1,70 +1,28 @@
 
 
-export const adminTemplate = ( name,email,subject,detail) => {
+export const adminTemplate = ( name,phone,postName) => {
     return `
     
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Contact Information Saved Successfully</title>
-    <style>
-        body {
-            background-color: #ffffff;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.4;
-            color: #333333;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-
-       
-
-        .message {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .body {
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .support {
-            font-size: 14px;
-            color: #999999;
-            margin-top: 20px;
-        }
-
-        
-    </style>
-
+    <title>Verify a New User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" />
 </head>
 
-<body>
-    <div class="container">
-       
-        <div class="message">User Contacted Us</div>
-        <div class="body">
-            <p>Name: ${name},</p>
-            <br>
-            <p>Email: ${email},</p>
-            <br>
-            <p>Subject: ${subject},</p>
-             <br>
-            <p>Detail: ${detail},</p>
-             <br>
-        
+<body class="bg-white font-sans text-gray-700">
+    <div class="container mx-auto max-w-md p-6 text-center">
+        <h1 class="text-2xl font-bold mb-4">Verify a New User Registered for HipHop Dance</h1>
+        <p class="text-lg">Respected Admin,</p>
+        <p class="text-lg">A new user, <span class="text-blue-500 font-bold">${name}</span> , has registered for ${postName}.</p>
+        <p class="text-lg">Please visit the dashboard to verify the user and generate their payment receipt.</p>
+        <a href="/dashboard" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Go to Dashboard</a>
+        <p class="text-lg mt-4">You can also contact the user at ${phone} (for reference only).</p>
+        <p class="text-lg">Thanks & Regards,</p>
+        <p class="text-lg">CyberTeam</p>
+    </div>
 </body>
 
 </html>

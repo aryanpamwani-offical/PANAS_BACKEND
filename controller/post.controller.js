@@ -40,7 +40,9 @@ export const createPost = async (req, res) => {
       Date: new Date(Date.now()),
       shortDesc,
       slug,
-      keyword
+      keyword,
+      
+
     });
     await categoryModel.findByIdAndUpdate(
       categoryDetails._id,
@@ -153,12 +155,12 @@ export const showAllSchedulePost=async(req,res)=>{
 
 export const postPageDetails = async (req, res) => {
    try {
-     const { slug } = req.params;
-      if (!slug) 
+     const { id } = req.params;
+      if (!id) 
         {
          return res.status(300).json({ success: false, message: "Slug not found", }); 
         } // Check if post is cached
-    redisClient.get(`post:${slug}`, async (err, post) => {
+    redisClient.get(`post:${id}`, async (err, post) => {
      if (post) 
     { 
       return res.status(200).json({ 
@@ -170,7 +172,7 @@ export const postPageDetails = async (req, res) => {
      }
        
  })
- const selectedPost = await postModel.findOne({ slug }).exec(); 
+ const selectedPost = await postModel.findById(id); 
  if (!selectedPost) { 
   return res.status(401).json({
      success: false,
@@ -178,7 +180,7 @@ export const postPageDetails = async (req, res) => {
      });
  }
 
-redisClient.setEx(`post:${slug}`, 43200, JSON.stringify(selectedPost)); 
+redisClient.setEx(`post:${id}`, 43200, JSON.stringify(selectedPost)); 
 return res.status(200).json({ success: true, 
 message: "Post Found",
 data: selectedPost,
