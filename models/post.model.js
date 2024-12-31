@@ -33,6 +33,9 @@ const postSchema = new mongoose.Schema({
   Date: {
     type: Date,
   },
+  amount:{
+    type:String
+  }
 });
 
 export default mongoose.model("Post", postSchema);

@@ -1,12 +1,10 @@
 import express from "express";
 
-import { createPost, deletePost, postPageDetails, searchPosts, showAllPost,  updatePost,schedulePost, showAllSchedulePost } from "../controller/post.controller.js";
+import { createPost, deletePost, postPageDetails, searchPosts, showAllPost,  updatePost,} from "../controller/post.controller.js";
 
 const router=express.Router();
 
 router.post('/create',createPost);
-router.post('/schedule',schedulePost)
-router.get('/schedule/showall',showAllSchedulePost);
 router.get('/showall',showAllPost);
 router.get('/showsingle/:id',postPageDetails);
 router.get('/', searchPosts);

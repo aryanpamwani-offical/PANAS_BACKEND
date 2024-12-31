@@ -139,7 +139,20 @@ export const userDetails = async (req, res) => {
     });
   }
 }
+export const deleteUser=async(req,res)=>{
+  try {
+    const {_id}=req.params;
+    const Delete= await postModel.findByIdAndDelete(_id);
 
+        return res.status(200).json({
+            sucess:true,
+            data:postDelete,
+            message:"Post Deleted Successfully",
+        });
+  } catch (error) {
+    
+  }
+}
 
 
 //File 

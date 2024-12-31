@@ -1,18 +1,15 @@
 import categoryModel from "../models/category.model.js";
 import postModel from "../models/post.model.js";
-import ScheduledPost from '../models/schedule.model.js';
-import schedule from 'node-schedule';
-import axios from 'axios';
 import { redisDb } from "../config/redisdb.js";
 const redisClient=await redisDb();
 
 
 export const createPost = async (req, res) => {
   try {
-    const { name, content, category, imgUrl, shortDesc, keyword } = req.body;
+    const { name, content, category, imgUrl, shortDesc, keyword,amount } = req.body;
     let { categoryName, slug } = req.body;
 
-    if (!name || !content || !category || !imgUrl || !shortDesc || !keyword) {
+    if (!name || !content || !category || !imgUrl || !shortDesc || !keyword || !amount) {
       return res.status(400).json({
         success: false,
         message: "All fields are required"
@@ -41,8 +38,7 @@ export const createPost = async (req, res) => {
       shortDesc,
       slug,
       keyword,
-      
-
+      amount,
     });
     await categoryModel.findByIdAndUpdate(
       categoryDetails._id,
@@ -66,43 +62,6 @@ export const createPost = async (req, res) => {
 
 
 
-export const schedulePost = async (req, res) => {
-  const { name, content, category, imgUrl, shortDesc, keyword, date } = req.body;
-  let { slug } = req.body;
-
-  if (!name || !content || !category || !imgUrl || !shortDesc || !keyword || !date) {
-    return res.status(400).json({
-      success: false,
-      message: "All fields are required"
-    });
-  }
-
-  // Generate slug
-  slug = name.toString().toLowerCase().trim().replace(/[^a-z\s-]/g, '').replace(/\s+/g, '-');
-  console.log(slug);
-
-  // Parse the date
-  const scheduledDate = new Date(date);
-
-  // Store the post data in the database
-  const post = new ScheduledPost({ name, content, category, imgUrl, shortDesc, keyword, slug, scheduledDate });
-  await post.save();
-
-  // Schedule the task
-  schedule.scheduleJob(scheduledDate, async () => {
-    try {
-      await axios.post(`${process.env.BASE_URL}/post/create`, post); // Adjust the API URL as needed
-      await ScheduledPost.findByIdAndDelete(post._id); // Remove from database after posting
-    } catch (error) {
-      console.error('Failed to create post:', error);
-    }
-  });
-
-  return res.status(200).json({
-    success: true,
-    message: "Post scheduled successfully"
-  });
-};
 
 export const showAllPost=async(req,res)=>{
     try {
@@ -136,22 +95,6 @@ export const showAllPost=async(req,res)=>{
     }
 }
 
-export const showAllSchedulePost=async(req,res)=>{
-  try {
-      const allCategories=await ScheduledPost.find({});
-      return res.status(200).json({
-          sucess:true,
-          message:"POST: - ",
-          allCategories
-      });
-  } catch (error) {
-    return  res.status(400).json({
-          sucess:false,
-          message:"Internal error occured",
-          error,
-      });
-  }
-}
 
 export const postPageDetails = async (req, res) => {
    try {
@@ -204,8 +147,8 @@ export const updatePost=async(req,res)=>{
                 message:"ID not found",
             });
         } 
-        const {name,content,imgUrl,shortDesc,keyword}=req.body;
-        if (!name || !content || !_id || !imgUrl || !shortDesc || !keyword) {
+        const {name,content,imgUrl,shortDesc,keyword,category,amount}=req.body;
+        if (!name || !content || !_id || !imgUrl || !shortDesc || !keyword ||!category || !amount) {
             return res.status(400).json({
                 sucess:false,
                 message:"All fields are required "
@@ -225,7 +168,10 @@ export const updatePost=async(req,res)=>{
                 shortDesc:shortDesc,
                 slug:slug,
                 Date:new Date(Date.now()),
-                keyword:keyword
+                keyword:keyword,
+                amount:amount,
+                category:category
+
                 
             },},
            

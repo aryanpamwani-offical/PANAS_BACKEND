@@ -152,7 +152,7 @@ export const updateCategory=async(req,res)=>{
 export const deleteCategory = async (req, res) => {
     try {
       const { _id } = req.params;
-
+      console.log(_id);
   
       if (!_id) {
         return res.status(400).json({
@@ -161,22 +161,22 @@ export const deleteCategory = async (req, res) => {
         });
       }
   
-      const category = await categoryModel.findById(_id);
+    //   const category = await categoryModel.findById(_id);
   
-      if (!category) {
-        return res.status(404).json({
-          success: false,
-          message: "Category not found",
-        });
-      }
+    //   if (!category) {
+    //     return res.status(404).json({
+    //       success: false,
+    //       message: "Category not found",
+    //     });
+    //   }
   
   
-      const deletedCategory = await categoryModel.findByIdAndDelete(category._id);
+      const deletedCategory = await categoryModel.findByIdAndDelete(_id);
   
       return res.status(200).json({
         success: true,
         data: deletedCategory,
-        message: "Category and associated posts updated successfully"
+        message: "Category and associated posts deleted successfully"
       });
     } catch (error) {
       console.log("Error in deleteCategory:", error);
