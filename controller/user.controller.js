@@ -69,6 +69,8 @@ export const createContact = async (req, res) => {
          `Verify a ${newContact.name} User Registered for ${newContact.postName} Dance`,
         adminTemplate(newContact.name, newContact.phone, newContact.postName, newContact.imgUrl) );
 
+
+        
     return res.status(200).json({
       message: "User Sent",
       data: userUpdate
