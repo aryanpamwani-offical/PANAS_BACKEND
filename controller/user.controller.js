@@ -67,7 +67,7 @@ export const createContact = async (req, res) => {
       console.log(`Post Name: ${newContact.postName}`);
       const sendAdmin = await mailSender( process.env.MAIL_ADMIN,
          `Verify a ${newContact.name} User Registered for ${newContact.postName} Dance`,
-        adminTemplate(newContact.name, newContact.phone, newContact.postName, newContact.imgUrl) );
+        adminTemplate(newContact.name, newContact.phone, newContact.postName, newContact.imgUrl,newContact._id) );
 
 
         
