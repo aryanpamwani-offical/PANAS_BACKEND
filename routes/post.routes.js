@@ -6,7 +6,7 @@ const router=express.Router();
 
 router.post('/create',createPost);
 router.get('/showall',showAllPost);
-router.get('/showsingle/:id',postPageDetails);
+router.get('/showsingle/:_id',postPageDetails);
 router.get('/', searchPosts);
 router.put('/update/:_id',updatePost);
 
