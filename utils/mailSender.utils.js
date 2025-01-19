@@ -8,7 +8,6 @@ const mailSender=async(email,title,body)=>{
             port:process.env.MAIL_PORT,
             auth:{
                 user:process.env.MAIL_USER,
-                
                 pass:process.env.MAIL_PASS,
             }
         }
