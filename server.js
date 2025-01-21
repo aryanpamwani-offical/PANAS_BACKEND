@@ -5,10 +5,10 @@ import cors from "cors";
 import postRoutes from './routes/post.routes.js'
 import categoryRoutes from './routes/category.routes.js'
 import contactRoutes from './routes/user.routes.js'
-import imageRoutes from './routes/image.routes.js'
+
 import {errorHandler, notFound } from './middleware/errorMiddleware.js';
 import reloadWebsite from './config/upTimeServer.js';
-import { cloudinaryConnect } from './config/cloudinary.js';
+
 import { redisDb } from './config/redisdb.js';
 
  
@@ -28,13 +28,13 @@ connectDb();
 const redisDataBase=await redisDb();
 reloadWebsite();
 setInterval(reloadWebsite, interval);
-cloudinaryConnect();
+
 
 //routes
 app.use("/api/post", postRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/user", contactRoutes);
-app.use("/api/image", imageRoutes);
+
 
 //def route
 

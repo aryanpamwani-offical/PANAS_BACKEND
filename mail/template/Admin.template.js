@@ -1,4 +1,4 @@
-export const adminTemplate = (name, phone, postName, imageUrl,id) => {
+export const adminTemplate = (name, phone, postName,id) => {
     return( `
 <!DOCTYPE html>
 <html lang="en">
@@ -21,9 +21,7 @@ export const adminTemplate = (name, phone, postName, imageUrl,id) => {
         <div class="mt-6">
             <p class="text-lg">You can also contact the user at ${phone} (for reference only).</p>
             <p class="text-lg mt-4">Here is the user's uploaded image:</p>
-            <div class="flex justify-center mt-2">
-                <a href="${imageUrl}" class="text-blue-500 underline">View Payment</a>
-            </div>
+            
         </div>
         <div class="mt-6 text-center">
             <p class="text-lg">Thanks & Regards,</p>

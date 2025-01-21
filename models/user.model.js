@@ -15,11 +15,7 @@ const contactSchema = new mongoose.Schema({
         required: true,
     },
    
-    imgUrl: {
-        type: String,
-        required: true,
-       
-    },
+    
     posts: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post' // Correctly reference the Category model
@@ -27,7 +23,12 @@ const contactSchema = new mongoose.Schema({
     postName: {
         type: String, // Changed to String
       },
-    
+    amount:{
+        type:String,
+    },
+    type:{
+        type:String,
+    },
 },
 {timestamps:true},
 );
