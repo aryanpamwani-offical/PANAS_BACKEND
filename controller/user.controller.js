@@ -1,6 +1,5 @@
 
-import mailSender from '../utils/mailSender.utils.js';
-import { adminTemplate } from '../mail/template/Admin.template.js';
+
 import contactModel from '../models/user.model.js';
 import postModel from '../models/post.model.js';
 import { redisDb } from "../config/redisdb.js";

@@ -5,8 +5,6 @@ import cors from "cors";
 import postRoutes from './routes/post.routes.js'
 import categoryRoutes from './routes/category.routes.js'
 import contactRoutes from './routes/user.routes.js'
-
-import {errorHandler, notFound } from './middleware/errorMiddleware.js';
 import reloadWebsite from './config/upTimeServer.js';
 
 import { redisDb } from './config/redisdb.js';
