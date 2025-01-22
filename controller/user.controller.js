@@ -142,3 +142,45 @@ export const deleteUser=async(req,res)=>{
 }
 
 
+export const userUpDate=async(req,res)=>{
+  try {
+    const { id } = req.params;
+  const {type,amount}=req.body;
+  if (!type || !amount) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+  if (!id) {
+    return res.status(300).json({ success: false, message: "Slug not found", });
+  } 
+  const selectedUser = await contactModel.findById(id);
+  if (!selectedUser) {
+    return res.status(401).json({
+      success: false,
+      message: "Data not found",
+    });
+  }
+  const userUpdate= await contactModel.findByIdAndUpdate(selectedUser._id,{
+    $set:{
+        type:type,
+        amount:amount,
+    }
+  },{new:true},);
+  return res.status(200).json({
+    sucess:true,
+    data:userUpdate,
+    message:"Post Updated Successfully",
+});
+  } catch (error) {
+    console.log(error);
+        
+    return res.status(400).json({
+        sucess:false,
+        message:"Internal error occured",
+        error,
+
+
+    });
+  }
+  
+
+}
