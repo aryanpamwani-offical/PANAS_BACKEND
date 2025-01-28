@@ -184,3 +184,51 @@ export const userUpDate=async(req,res)=>{
   
 
 }
+
+export const searchUser=async(req,res)=>{
+  try {
+    const { searchTerm } = req.query;
+    
+    // Build search criteria to search across multiple fields
+    let searchCriteria = {};
+    
+    if (searchTerm) {
+        searchCriteria = {
+            $or: [
+                { name: { $regex: searchTerm, $options: 'i' } },
+                { postName: { $regex: searchTerm, $options: 'i' } },
+                { type: { $regex: searchTerm, $options: 'i' } }
+            ]
+        };
+    }
+    
+    // Execute search with pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 30;
+    const skip = (page - 1) * limit;
+    
+    const users = await contactModel.find(searchCriteria)
+        .skip(skip)
+        .limit(limit);
+        
+    const total = await contactModel.countDocuments(searchCriteria);
+    
+    res.json({
+        success: true,
+        data: users,
+        pagination: {
+            currentPage: page,
+            totalPages: Math.ceil(total / limit),
+            totalResults: total,
+            resultsPerPage: limit
+        }
+    });
+    
+} catch (error) {
+    res.status(500).json({
+        success: false,
+        message: 'Error performing search',
+        error: error.message
+    });
+}
+}
