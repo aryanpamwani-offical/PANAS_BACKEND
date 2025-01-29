@@ -312,5 +312,6 @@ export const createSearchIndexes = async () => {
       console.log('Indexes created successfully');
   } catch (error) {
       console.error('Error creating indexes:', error);
+      
   }
 };
